@@ -14,6 +14,7 @@ namespace Bank_App.Models
         public string Password { get; set; }
         public AccountType AccountType { get; set; }
         protected decimal Balance { get; set; }
+        public decimal LoanAmount {  get; set; }
         public Account() { }
         public Account(string name, string email, string password, AccountType accountType)
         {

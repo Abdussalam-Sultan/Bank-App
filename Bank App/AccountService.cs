@@ -68,6 +68,7 @@ namespace Bank_App
             Console.WriteLine($"Name: {account.Name}");
             Console.WriteLine($"Email: {account.Email}");
             Console.WriteLine($"Account Type: {account.AccountType}");
+            if (account.LoanAmount != 0) { Console.WriteLine($"Loan Amount: {account.LoanAmount:C}"); }
         }
         public static void Deposit( Account account)
         {
@@ -88,14 +89,9 @@ namespace Bank_App
             if (amount > account.GetBalance())
             {
                 Helpers.Color(ConsoleColor.Red, "Insufficient funds for withdrawal.");
-                return;
-            }
-            if (amount <= 0)
-            {
-                Helpers.Color(ConsoleColor.Red, "Withdrawal amount must be greater than 0.");
-                if(account.AccountType == AccountType.Current)
+                if (account.AccountType == AccountType.Current)
                 {
-                    Console.WriteLine("Would you like to take a loan");
+                    Console.WriteLine("Would you like to take a loan(yes/no)");
                     string result = Console.ReadLine().ToLower();
                     if (result == "yes")
                     {
@@ -103,6 +99,11 @@ namespace Bank_App
                     }
                     else if (result == "no") { Console.WriteLine("Loan Request cancelled"); }
                 }
+                return;
+            }
+            if (amount <= 0)
+            {
+                Helpers.Color(ConsoleColor.Red, "Withdrawal amount must be greater than 0.");
                 return;
             }
             account.SubtractBalance(amount);
@@ -145,15 +146,21 @@ namespace Bank_App
         }
         private static void LoanAccount(Account account)
         {
-
+            Console.Write("Loan amount: ");
+            decimal amount = Convert.ToDecimal(Console.ReadLine());
+            account.LoanAmount = amount;
         }
         public static void PrintTransactionHistory(Account account)
         {
-            Console.WriteLine($"\nTransaction history for {account.Name} ({account.Email}):");
-            foreach (var tx in transactions)
+            if (transactions.Count > 0)
             {
-                Console.WriteLine(tx.ToString());
+                Console.WriteLine($"\nTransaction history for {account.Name} ({account.Email}):");
+                foreach (var tx in transactions)
+                {
+                    Console.WriteLine(tx.ToString());
+                }
             }
+            else { Console.WriteLine("No transactions yet"); }
         }
     }
 }

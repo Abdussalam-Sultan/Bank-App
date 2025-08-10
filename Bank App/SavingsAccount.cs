@@ -4,11 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Bank_App.Models
+namespace Bank_App
 {
-    public enum AccountType
+    public class SavingsAccount
     {
-        Current,
-        Savings,
+
     }
 }
